@@ -1,0 +1,3 @@
+SOURCES:= \
+src/BaseServer/BaseServer.cpp \
+src/BaseServer/BaseServerRequestHandler.cpp
