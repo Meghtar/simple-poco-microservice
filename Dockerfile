@@ -2,11 +2,13 @@ FROM poco_builder AS builder
 
 RUN mkdir -p /build/src
 COPY ./src /build/src
+COPY ./Makefile /build/
 
 WORKDIR /build
 RUN mkdir bin
 RUN ls ./src
-RUN g++ -std=c++2a src/main.cpp -o bin/server -lPocoFoundation -lPocoUtil -lPocoNet
+RUN make
+#g++ -std=c++2a src/main.cpp -o bin/server -lPocoFoundation -lPocoUtil -lPocoNet
 
 # next stage
 
