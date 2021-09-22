@@ -17,13 +17,14 @@ int BaseServer::main(const std::vector<std::string>& args)
         return loadedProperly;
     }
 
-    auto handlerFactory = std::make_shared<BaseServerRequestHandlerFactory>(config().getInt("remote_port"), "localhost");
+    auto handlerFactory = config().getBool("use_remote") ?
+                          std::make_shared<BaseServerRequestHandlerFactory>(config().getInt("remote_port"), config().getString("remote_host")) :
+                          std::make_shared<BaseServerRequestHandlerFactory>();
 
     Poco::Net::HTTPServer srv(handlerFactory.get(), Poco::Net::ServerSocket(config().getInt("port")), new Poco::Net::HTTPServerParams);
 
     srv.start();
     std::cout << "Server started on port " << config().getInt("port") << std::endl;
-    std::cout << "Remote server on port " << config().getString("remote_port") << std::endl;
 
     waitForTerminationRequest();
 
@@ -38,12 +39,16 @@ int BaseServer::loadConfig()
 
     try
     {
-    config().setInt("port", pConf->getInt("Config.port"));
+        config().setInt("port", pConf->getInt("Config.port"));
+        config().setBool("use_remote", pConf->getBool("Config.use_remote"));
 
-    config().setInt("remote_port", pConf->getInt("Config.remote_port"));
-
-    config().setBool("use_remote", pConf->getBool("Config.use_remote"));
-    } catch(NotFoundException& ex)
+        if (config().getBool("use_remote"))
+        {
+            config().setInt("remote_port", pConf->getInt("Config.remote_port"));
+            config().setString("remote_host", pConf->getString("Config.remote_host"));
+        }
+    }
+    catch(NotFoundException& ex)
     {
         std::cout << "[FAILED] " << ex.displayText() << std::endl;
         return Application::EXIT_CONFIG;

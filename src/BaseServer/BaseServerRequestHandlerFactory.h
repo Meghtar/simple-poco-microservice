@@ -25,6 +25,7 @@
 #include <sstream>
 
 #include "BaseServerRequestHandler.h"
+#include "RemoteServerConfig.h"
 
 
 using Poco::Net::ServerSocket;
@@ -44,19 +45,27 @@ class BaseServerRequestHandlerFactory: public HTTPRequestHandlerFactory
 {
 public:
     BaseServerRequestHandlerFactory(uint16_t remoteServicePort, const std::string& remoteServiceHost) : 
-    _remoteServicePort(remoteServicePort), _remoteServiceHost(remoteServiceHost) {
-        std::cout << "created factory with: " << _remoteServiceHost << " on " << _remoteServicePort << std::endl;
+    _remoteServerConfig(std::make_unique<RemoteServerConfig>(remoteServiceHost, remoteServicePort))
+    {
+        std::cout << "created factory with remote: " <<  _remoteServerConfig->getHost() << " on port " <<  _remoteServerConfig->getPort() << std::endl;
     }
+    BaseServerRequestHandlerFactory() :
+    _remoteServerConfig(std::make_unique<RemoteServerConfig>())
+    {}
     HTTPRequestHandler* createRequestHandler(const HTTPServerRequest& request)
     {
         if (request.getURI() == "/")
             return new BaseServerRequestHandler("");
-        else if (request.getURI() == "/example")
-            return new BaseServerRequestHandler("example", _remoteServiceHost, _remoteServicePort);
+        else if (request.getURI() == "/remote")
+        {
+            if (_remoteServerConfig->useRemote())
+                return new BaseServerRequestHandler("remote", _remoteServerConfig->getHost(), _remoteServerConfig->getPort());
+            else
+                return new BaseServerRequestHandler("remote but turned off");
+        }
         else
             return new BaseServerRequestHandler("Not a default URI");
     }
 private:
-    const uint16_t _remoteServicePort;
-    const std::string _remoteServiceHost;
+    const std::unique_ptr<RemoteServerConfig> _remoteServerConfig;
 };

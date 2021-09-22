@@ -103,6 +103,7 @@ std::string BaseServerRequestHandler::prepareResponse(const Poco::Net::HTTPServe
 
     response.set("URI", request.getURI());
     response.set("contentType", request.getContentType());
+    response.set("miscText", _text);
     response.set("additionalText", additionalText);
 
     Poco::Dynamic::Var response_var = response;

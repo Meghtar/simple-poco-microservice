@@ -16,7 +16,10 @@ FROM ubuntu:20.04
 WORKDIR /tmp
 COPY --from=builder /build/bin/server /tmp/
 COPY /lib/* /usr/local/lib/
+COPY /config.ini /tmp/config.ini
 ENV LD_LIBRARY_PATH=/usr/local/lib/
 
-EXPOSE 19999
-ENTRYPOINT [ "/tmp/server" ]
+#EXPOSE 19999
+# ENTRYPOINT [ "/tmp/server" ]
+ENTRYPOINT [ "/bin/bash" ]
+#prepare config.ini before
