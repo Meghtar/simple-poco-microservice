@@ -1,6 +1,6 @@
 CC = g++
 STANDARD = c++2a
-POCO_LINKS = -lPocoFoundation -lPocoUtil -lPocoNet -lPocoJSON
+POCO_LINKS = -lPocoFoundation -lPocoUtil -lPocoNet -lPocoJSON -lglog
 SRC_DIR = src
 BIN_DIR = bin
 TARGET = server
@@ -14,4 +14,4 @@ include $(SRC_DIR)/BaseServer/Makefile.sources
 server:
 	@echo Making server
 	@echo $(SOURCES)
-	g++ -std=$(STANDARD) $(SRC_DIR)/main.cpp $(SOURCES) $(POCO_LINKS) -o $(BIN_DIR)/$(TARGET)
+	g++ -std=$(STANDARD) $(SRC_DIR)/main.cpp $(SOURCES) $(POCO_LINKS) -o $(BIN_DIR)/$(TARGET) -Wall

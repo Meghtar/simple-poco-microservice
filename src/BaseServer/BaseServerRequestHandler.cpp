@@ -1,6 +1,7 @@
 #include "BaseServerRequestHandler.h"
 
 #include "Poco/JSON/Object.h"
+#include <glog/logging.h>
 
 std::string BaseServerRequestHandler::createUrl(const std::string& protocol, const std::string& host, const uint16_t port, const std::string& endpoint)
 {
@@ -13,7 +14,7 @@ void BaseServerRequestHandler::handleRequest(Poco::Net::HTTPServerRequest& reque
         response.setContentType("application/json");
 
         std::ostream& out = response.send();
-        std::cout << "Received request" << std::endl;
+        LOG(INFO) << "Received request";
 
         std::string content = getRequestContent(request);
 
@@ -24,13 +25,13 @@ void BaseServerRequestHandler::handleRequest(Poco::Net::HTTPServerRequest& reque
             std::string body = "{\"Example\":\"content\"}";
             std::map<std::string,std::string> headers;
 
-            std::cout << "sending to " << _remoteHost << " on " << _remotePort << std::endl;
+            LOG(INFO) << "sending to " << _remoteHost << " on " << _remotePort;
 
             std::string addr = createUrl("http", _remoteHost, _remotePort);
-
+            
             externalResponse = sendRequest(addr, body, headers);
 
-            std::cout << externalResponse << std::endl;
+            LOG(INFO) << externalResponse;
 
         }
 
@@ -82,7 +83,7 @@ try
             
         // get response
         HTTPResponse res;
-        std::cout << res.getStatus() << " " << res.getReason() << std::endl;
+        LOG(INFO) << res.getStatus() << " " << res.getReason();
             
         std::istream &is = session.receiveResponse(res);
         std::stringstream ss;
@@ -92,7 +93,7 @@ try
     }
     catch (Exception &ex)
     {
-        std::cerr << ex.displayText() << std::endl;
+        LOG(ERROR) << ex.displayText();
         return "";
     }
 }

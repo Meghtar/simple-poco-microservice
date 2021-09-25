@@ -14,7 +14,7 @@ struct RemoteServerConfig
     std::string getHost() const { return _remoteServiceHost; }
     bool useRemote() const { return _useRemote; }
 private:
-    const std::string _remoteServiceHost;
     const uint16_t _remoteServicePort;
+    const std::string _remoteServiceHost;
     const bool _useRemote;
 };

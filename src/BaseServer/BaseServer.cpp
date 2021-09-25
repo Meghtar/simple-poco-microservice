@@ -6,6 +6,8 @@
 #include "Poco/Util/IniFileConfiguration.h"
 #include "Poco/AutoPtr.h"
 
+#include <glog/logging.h>
+
 using Poco::AutoPtr;
 using Poco::Util::IniFileConfiguration;
 
@@ -24,11 +26,11 @@ int BaseServer::main(const std::vector<std::string>& args)
     Poco::Net::HTTPServer srv(handlerFactory.get(), Poco::Net::ServerSocket(config().getInt("port")), new Poco::Net::HTTPServerParams);
 
     srv.start();
-    std::cout << "Server started on port " << config().getInt("port") << std::endl;
+    LOG(INFO) << "Server started on port " << config().getInt("port");
 
     waitForTerminationRequest();
 
-    std::cout << "Shutting down..." << std::endl;
+    LOG(INFO) << "Shutting down...";
     srv.stop();
     return Application::EXIT_OK;
 }
@@ -50,7 +52,8 @@ int BaseServer::loadConfig()
     }
     catch(NotFoundException& ex)
     {
-        std::cout << "[FAILED] " << ex.displayText() << std::endl;
+
+        LOG(FATAL) << "[FAILED] " << ex.displayText();
         return Application::EXIT_CONFIG;
     }
     return Application::EXIT_OK;

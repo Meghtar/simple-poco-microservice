@@ -27,6 +27,8 @@
 #include "BaseServerRequestHandler.h"
 #include "RemoteServerConfig.h"
 
+#include <glog/logging.h>
+
 
 using Poco::Net::ServerSocket;
 using Poco::Net::HTTPRequestHandler;
@@ -47,7 +49,7 @@ public:
     BaseServerRequestHandlerFactory(uint16_t remoteServicePort, const std::string& remoteServiceHost) : 
     _remoteServerConfig(std::make_unique<RemoteServerConfig>(remoteServiceHost, remoteServicePort))
     {
-        std::cout << "created factory with remote: " <<  _remoteServerConfig->getHost() << " on port " <<  _remoteServerConfig->getPort() << std::endl;
+        LOG(INFO) << "created factory with remote: " <<  _remoteServerConfig->getHost() << " on port " <<  _remoteServerConfig->getPort();
     }
     BaseServerRequestHandlerFactory() :
     _remoteServerConfig(std::make_unique<RemoteServerConfig>())
