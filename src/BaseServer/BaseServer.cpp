@@ -1,7 +1,6 @@
 #include "BaseServer.h"
 
 #include <memory>
-#include <optional>
 
 #include "Poco/Util/IniFileConfiguration.h"
 #include "Poco/AutoPtr.h"
@@ -50,7 +49,7 @@ int BaseServer::loadConfig()
             config().setString("remote_host", pConf->getString("Config.remote_host"));
         }
     }
-    catch(NotFoundException& ex)
+    catch(Poco::NotFoundException& ex)
     {
 
         LOG(FATAL) << "[FAILED] " << ex.displayText();

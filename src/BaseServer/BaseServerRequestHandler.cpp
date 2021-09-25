@@ -1,6 +1,5 @@
 #include "BaseServerRequestHandler.h"
 
-#include "Poco/JSON/Object.h"
 #include <glog/logging.h>
 
 std::string BaseServerRequestHandler::createUrl(const std::string& protocol, const std::string& host, const uint16_t port, const std::string& endpoint)
@@ -58,15 +57,15 @@ std::string BaseServerRequestHandler::sendRequest(std::string url, std::string b
 try
     {
         // prepare session
-        URI uri(url);
-        HTTPClientSession session(uri.getHost(), uri.getPort());
+        Poco::URI uri(url);
+        Poco::Net::HTTPClientSession session(uri.getHost(), uri.getPort());
 
         // prepare path
         std::string path(uri.getPathAndQuery());
         if (path.empty()) path = "/";
             
         // send request
-        HTTPRequest req(HTTPRequest::HTTP_POST, path, HTTPMessage::HTTP_1_1);
+        Poco::Net::HTTPRequest req(Poco::Net::HTTPRequest::HTTP_POST, path, Poco::Net::HTTPMessage::HTTP_1_1);
         req.setContentType("application/json");
             
         // Set headers here
@@ -82,16 +81,16 @@ try
         os << body;
             
         // get response
-        HTTPResponse res;
+        Poco::Net::HTTPResponse res;
         LOG(INFO) << res.getStatus() << " " << res.getReason();
             
         std::istream &is = session.receiveResponse(res);
         std::stringstream ss;
-        StreamCopier::copyStream(is, ss);
+        Poco::StreamCopier::copyStream(is, ss);
             
         return ss.str();
     }
-    catch (Exception &ex)
+    catch (Poco::Exception &ex)
     {
         LOG(ERROR) << ex.displayText();
         return "";
