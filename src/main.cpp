@@ -3,7 +3,7 @@
 
 int main(int argc, char** argv)
 {
-    FLAGS_log_dir = "/tmp/logs";
+    FLAGS_log_dir = "/application/logs";
     google::InitGoogleLogging(argv[0]);
     LOG(INFO) << "Logger initialized";
     BaseServer app;

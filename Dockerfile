@@ -13,13 +13,14 @@ RUN make
 # next stage
 
 FROM ubuntu:20.04
-WORKDIR /tmp
-COPY --from=builder /build/bin/server /tmp/
+RUN mkdir -p /application/logs
+WORKDIR /application
+COPY --from=builder /build/bin/server /application/
 COPY /lib/* /usr/local/lib/
-COPY /config.ini /tmp/config.ini
+COPY /config.ini /application/config.ini
 ENV LD_LIBRARY_PATH=/usr/local/lib/
 
 #EXPOSE 19999
-# ENTRYPOINT [ "/tmp/server" ]
-ENTRYPOINT [ "/bin/bash" ]
+ENTRYPOINT [ "/application/server" ]
+# ENTRYPOINT [ "/bin/bash" ]
 #prepare config.ini before
