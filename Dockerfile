@@ -2,12 +2,14 @@ FROM poco_builder AS builder
 
 RUN mkdir -p /build/src
 COPY ./src /build/src
+COPY ./test /build/test
 COPY ./Makefile /build/
 
 WORKDIR /build
 RUN mkdir bin
-RUN ls ./src
-RUN make
+COPY /lib/* /usr/local/lib/
+ENV LD_LIBRARY_PATH=/usr/local/lib/
+RUN make && make test
 
 # next stage
 

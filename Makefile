@@ -20,5 +20,5 @@ server:
 test:
 	@echo Making test
 	@echo $(TEST_SOURCES)
-	g++ -std=$(STANDARD) $(TEST_DIR)/main.cpp -I ./$(SRC_DIR)/ $(SOURCES) $(TEST_SOURCES) $(POCO_LINKS) $(TEST_LINKS) -o $(BIN_DIR)/$(TEST_TARGET) -Wall
+	g++ -std=$(STANDARD) $(TEST_DIR)/main.cpp -I $(SRC_DIR) $(SOURCES) $(TEST_SOURCES) $(POCO_LINKS) $(TEST_LINKS) -o $(BIN_DIR)/$(TEST_TARGET) -Wall
 	./$(BIN_DIR)/$(TEST_TARGET)
