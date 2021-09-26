@@ -1,3 +1,3 @@
 SOURCES:= \
-src/BaseServer/BaseServer.cpp \
-src/BaseServer/BaseServerRequestHandler.cpp
+$(SRC_DIR)/BaseServer/BaseServer.cpp \
+$(SRC_DIR)/BaseServer/BaseServerRequestHandler.cpp

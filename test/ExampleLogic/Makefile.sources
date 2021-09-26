@@ -1,0 +1,1 @@
+TEST_SOURCES := $(TEST_DIR)/ExampleLogic/MathOperatorTest.cpp 
