@@ -1,6 +1,5 @@
 #include <iostream>
 #include "gtest/gtest.h"
-// #include "../src/ExampleLogic/MathOperator.h"
 
 int main(int argc, char **argv)
 {

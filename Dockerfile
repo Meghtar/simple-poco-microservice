@@ -8,7 +8,6 @@ WORKDIR /build
 RUN mkdir bin
 RUN ls ./src
 RUN make
-#g++ -std=c++2a src/main.cpp -o bin/server -lPocoFoundation -lPocoUtil -lPocoNet
 
 # next stage
 
@@ -20,7 +19,4 @@ COPY /lib/* /usr/local/lib/
 COPY /config.ini /application/config.ini
 ENV LD_LIBRARY_PATH=/usr/local/lib/
 
-#EXPOSE 19999
 ENTRYPOINT [ "/application/server" ]
-# ENTRYPOINT [ "/bin/bash" ]
-#prepare config.ini before
