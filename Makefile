@@ -1,6 +1,6 @@
 CC = g++
 STANDARD = c++2a
-POCO_LINKS = -lPocoFoundation -lPocoUtil -lPocoNet -lPocoJSON -lglog
+POCO_LINKS = -lPocoFoundation -lPocoUtil -lPocoNet -lPocoJSON -lglog -lPocoMongoDB
 TEST_LINKS = -lgtest -lpthread
 SRC_DIR = src
 TEST_DIR = test

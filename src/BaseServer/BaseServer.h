@@ -7,6 +7,8 @@
 #include "BaseServerRequestHandler.h"
 #include "BaseServerRequestHandlerFactory.h"
 
+#include "../DatabaseHandler/DatabaseHandler.h"
+
 class BaseServer : public Poco::Util::ServerApplication
 {
 protected:
@@ -16,4 +18,7 @@ protected:
     config().setString(name, value);
   }
   int loadConfig();
+
+private:
+  DatabaseConfig _dbConfig;
 };
